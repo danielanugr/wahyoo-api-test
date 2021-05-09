@@ -1,13 +1,20 @@
 const { comparePassword } = require("../../api/helpers/bcrypt");
 const { generateToken } = require("../../api/helpers/jwt");
-const { AuthenticationError } = require("apollo-server-express");
+const { AuthenticationError, Vali } = require("apollo-server-express");
 
 const { User } = require("../../database/models");
+const { ValidationError } = require("sequelize");
 
 module.exports = {
   Mutation: {
     async register(root, args, context) {
       const { email, password } = args.input;
+
+      let findUser = User.findOne({ where: { email } });
+      if (findUser) {
+        throw new ValidationError("email is already registered");
+      }
+
       return User.create({ email, password });
     },
 
