@@ -1,6 +1,6 @@
 "use strict";
 const { Model } = require("sequelize");
-const { hashPassword } = require("../helpers/bcrypt");
+const { hashPassword } = require("../../api/helpers/bcrypt");
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -10,7 +10,10 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      User.hasMany(models.Transactions);
+      User.hasMany(models.Transaction, {
+        foreignKey: "UserId",
+        as: "transactions",
+      });
     }
   }
   User.init(
@@ -62,6 +65,9 @@ module.exports = (sequelize, DataTypes) => {
           user.password = hashPassword(user.password);
           user.balance = 500000;
         },
+      },
+      defaultScope: {
+        rawAttributes: { exclude: ["password"] },
       },
     }
   );
