@@ -10,6 +10,12 @@ module.exports = {
       },
       UserId: {
         type: Sequelize.INTEGER,
+        references: {
+          model: {
+            tableName: "Users",
+          },
+          key: "id",
+        },
       },
       transactionType: {
         type: Sequelize.ENUM(["deposit", "withdraw"]),
