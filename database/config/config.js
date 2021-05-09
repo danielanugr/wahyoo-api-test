@@ -1,6 +1,4 @@
-if (process.env.NODE_ENV != "production") {
-  require("dotenv").config();
-}
+require("dotenv").config();
 
 module.exports = {
   development: {
@@ -8,7 +6,7 @@ module.exports = {
     password: process.env.DB_PASSWORD_DEV,
     database: process.env.DB_DATABASE_DEV,
     host: process.env.DB_HOST_DEV,
-    dialect: process.env.DB_DIALECT_DEV,
+    dialect: "postgres",
   },
   test: {
     username: process.env.DB_USERNAME_TEST,
@@ -19,7 +17,7 @@ module.exports = {
   },
   production: {
     username: "root",
-    password: "null",
+    password: null,
     database: "database_production",
     host: "127.0.0.1",
     dialect: "mysql",
